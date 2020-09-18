@@ -218,12 +218,17 @@ public class UserInfoController {
      * @author : 张永辉
      */
     @PutMapping("/updatePassword")
-    public ResponseResult updatePassword(String password){
+    public ResponseResult updatePassword(String oldPassword, String password){
         ResponseResult responseResult = null;
         try {
-            userInfoService.updateUserPassword(password);
-            log.info("修改用户密码成功");
-            responseResult = ResponseResult.success(ResponseResultEnum.SUCCESS.getCode(),null,"修改用户密码成功");
+            boolean b = userInfoService.updateUserPassword(oldPassword, password);
+            if (b){
+                log.info("修改用户密码成功");
+                responseResult = ResponseResult.success(ResponseResultEnum.SUCCESS.getCode(),null,"修改用户密码成功");
+            }else {
+                log.info("原始密码错误！");
+                responseResult = ResponseResult.failure("原始密码错误！");
+            }
         } catch(Exception e){
             log.error("修改用户密码失败",e);
             responseResult = ResponseResult.failure("修改用户密码失败");

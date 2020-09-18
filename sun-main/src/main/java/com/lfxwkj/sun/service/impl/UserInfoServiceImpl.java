@@ -159,8 +159,11 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
      * @author : 张永辉
      */
     @Override
-    public void updateUserPassword(String password) {
+    public boolean updateUserPassword(String oldPassword, String password) {
         UserInfo userInfo = LoginUserInfoManager.getUserInfo();
+        if (!userInfo.getPassword().equals(MD5Util.getMD5(oldPassword))){
+            return false;
+        }
         UserInfo info = new UserInfo();
         info.setId(userInfo.getId()).setPassword(MD5Util.getMD5(password));
         userInfoMapper.updateById(info);
@@ -168,6 +171,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         if(subject.isAuthenticated()){
             subject.logout();
         }
+        return true;
     }
 
     /**

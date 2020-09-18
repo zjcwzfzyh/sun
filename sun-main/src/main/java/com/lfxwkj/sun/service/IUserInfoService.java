@@ -78,7 +78,7 @@ public interface IUserInfoService extends IService<UserInfo> {
      * @exception :
      * @author : 张永辉
      */
-    void updateUserPassword(String password);
+    boolean updateUserPassword(String oldPassword, String password);
 
     /**
      * @Description : 根据id获取用户信息
