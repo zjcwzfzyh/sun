@@ -98,6 +98,8 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
         queryWrapperUser.eq("user_name",addUser);
         UserInfo userInfo = userInfoMapper.selectOne(queryWrapperUser);
 
+        LocalDateTime localDateTime = LocalDateTime.now();
+        device.setAddTime(localDateTime);
         device.setAddUser(userInfo.getId());
         device.setState(1);
         deviceMapper.insert(device);
